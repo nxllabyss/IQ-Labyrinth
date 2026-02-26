@@ -1,485 +1,462 @@
-/* name=style.css
-   IQ Labyrinth — Multi Theme (Dark / Light / Dark Neon White aesthetic)
-   Created: 2026-02-26
-   Mobile-first, minimal, focus-oriented UI stylesheet
+/* IQ Labyrinth — Dark Red / INTJ style
+   Filename: style.css
+   Purpose: Dark Red theme, minimal INTJ UI, responsive, animations.
 */
 
-/* =========================
-   Basic reset + box-sizing
-   ========================= */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+/* ---------------------------
+   Theme variables
+   --------------------------- */
+:root{
+  --bg: #2b0000;           /* page background */
+  --panel: #3d0000;        /* container background */
+  --accent: #ff4c4c;       /* primary accent (buttons, progress) */
+  --accent-weak: #ffb3b3;  /* softer accent (timer text) */
+  --muted: #550000;        /* progress background / muted lines */
+  --text: #ffffff;         /* primary text */
+  --success: #00ff88;      /* correct flash */
+  --danger: #ff4444;       /* wrong flash / shake */
+  --glass: rgba(255,76,76,0.2);
+  --shadow-neon: 0 8px 30px rgba(255,76,76,0.2);
+  --radius: 12px;
+  --max-width: 700px;
+  --gap: 16px;
+  --btn-padding: 12px 18px;
+  --btn-radius: 10px;
+  --transition-fast: 180ms;
+  --transition-slow: 320ms;
+  --font-sans: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* =========================
-   Font & body layout
-   ========================= */
-:root {
-  /* Default (Dark) theme variables -- overridden by body.light / body.neon */
-  --bg: #121212;
-  --card: #1e1e1e;
-  --accent: #ffffff;
-  --secondary: #888888;
-  --button-bg: #2a2a2a;
-
-  --progress-bg: rgba(255,255,255,0.06);
-  --progress-fill: rgba(255,255,255,0.12);
-
-  --neon-glow: rgba(255,255,255,0.6);
-
-  --container-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  --focus-ring: rgba(255,255,255,0.12);
-
-  --timer-color: #ff6b6b; /* soft red accent for dark theme */
-  --timer-glow: rgba(255,107,107,0.12);
-
-  --max-width: 720px;
-  --radius: 16px;
-  --transition: cubic-bezier(.2,.9,.3,1);
-  --ease: 0.3s var(--transition);
-
-  --font-stack: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-                Roboto, "Helvetica Neue", Arial;
-}
-
-/* Light theme overrides */
-body.light {
-  --bg: #f5f5f5;
-  --card: #ffffff;
-  --accent: #111111;
-  --secondary: #555555;
-  --button-bg: #e0e0e0;
-
-  --progress-bg: rgba(0,0,0,0.06);
-  --progress-fill: rgba(0,0,0,0.18);
-
-  --neon-glow: rgba(255,255,255,0.0); /* not used */
-
-  --container-shadow: 0 8px 24px rgba(20,20,20,0.04);
-  --focus-ring: rgba(17,17,17,0.06);
-
-  --timer-color: #333333;
-  --timer-glow: rgba(0,0,0,0.04);
-}
-
-/* Dark Neon White aesthetic overrides */
-body.neon {
-  --bg: #000000;
-  --card: #111111;
-  --accent: #ffffff;
-  --secondary: rgba(255,255,255,0.65);
-  --button-bg: #1a1a1a;
-
-  --progress-bg: rgba(255,255,255,0.06);
-  --progress-fill: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
-
-  --neon-glow: rgba(255,255,255,0.6);
-
-  --container-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 24px rgba(255,255,255,0.03) inset;
-  --focus-ring: rgba(255,255,255,0.08);
-
-  --timer-color: #ffffff;
-  --timer-glow: rgba(255,255,255,0.12);
-}
-
-/* Body appearance */
-body {
+/* ---------------------------
+   Base / Reset
+   --------------------------- */
+* { box-sizing: border-box; }
+html,body{
+  height:100%;
+  margin:0;
+  font-family: var(--font-sans);
   background: var(--bg);
-  color: var(--accent);
-  font-family: var(--font-stack);
-  line-height: 1.35;
-  -webkit-font-smoothing: antialiased;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 24px;
-  transition: background var(--ease), color var(--ease);
-}
-
-/* =========================
-   App container
-   ========================= */
-.app-container {
-  width: 100%;
-  max-width: var(--max-width);
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent),
-              var(--card);
-  padding: 25px;
-  border-radius: var(--radius);
-  box-shadow: var(--container-shadow);
-  color: var(--accent);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: stretch;
-  transition: background var(--ease), box-shadow var(--ease), transform var(--ease);
-  text-rendering: optimizeLegibility;
-}
-
-/* Minimal header/title */
-.app-header {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* Title text */
-.title {
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--accent);
-  margin: 0;
-}
-
-/* Subtle subtitle */
-.subtitle {
-  font-size: 0.875rem;
-  color: var(--secondary);
-}
-
-/* =========================
-   Buttons - base styles
-   ========================= */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%; /* mobile-first: full width */
-  padding: 14px;
-  border-radius: 12px;
-  margin: 8px 0;
-  border: none;
-  background: var(--button-bg);
-  color: var(--accent);
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: transform 0.3s var(--transition), filter 0.3s var(--transition),
-              box-shadow 0.3s var(--transition), opacity 0.25s var(--transition);
+  color: var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.4;
   -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  text-decoration: none;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
 }
 
-/* Hover & active interactions */
-.btn:hover {
-  transform: scale(1.02);
-  filter: brightness(1.06);
-}
-.btn:active {
-  transform: scale(0.98);
-  transition-duration: 0.12s;
-}
-.btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 6px var(--focus-ring);
+/* Container centering */
+#app{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
 }
 
-/* Desktop adjustments (centered, not always full width) */
-@media (min-width: 720px) {
-  .btn {
-    width: auto;
-    min-width: 180px;
-  }
+/* Main content panel */
+.app-main, .app-header, .app-footer{
+  width:100%;
+  max-width: var(--max-width);
 }
 
-/* =========================
-   Correct Answer Button
-   - Green glow animation + soft pulse
-   ========================= */
-.btn.correct {
-  background: #00ff88;
-  color: #ffffff;
-  box-shadow: 0 8px 30px rgba(0,255,136,0.12), 0 0 20px rgba(0,255,136,0.06) inset;
-  border: 1px solid rgba(0,0,0,0.06);
-  animation: flashGreen 0.9s var(--transition) both;
+.app-header{
+  margin-bottom: 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
 
-/* Soft, continuous pulse to gently draw attention */
-.btn.correct.pulse {
-  animation: flashGreen 0.9s var(--transition) both, pulse 2.2s ease-in-out 0.9s infinite alternate;
+.brand {
+  font-size:22px;
+  letter-spacing:0.6px;
+  margin:0;
+  font-weight:600;
+}
+.tagline{
+  margin:0;
+  color: rgba(255,255,255,0.8);
+  font-size:13px;
 }
 
-/* =========================
-   Wrong Answer Button
-   - Red shake animation
-   ========================= */
-.btn.wrong {
-  background: #ff4444;
-  color: #ffffff;
-  box-shadow: 0 8px 28px rgba(255,68,68,0.12);
-  border: 1px solid rgba(0,0,0,0.06);
-  /* default: no continuous shaking; animation will run once when class applied */
-  animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+/* Panel style for each step */
+.step{
+  background: linear-gradient(180deg, rgba(255,76,76,0.03) 0%, rgba(0,0,0,0.02) 100%), var(--panel);
+  border-radius: 15px;
+  box-shadow: var(--shadow-neon);
+  padding: 22px;
+  margin: 12px 0;
+  max-width:100%;
+  width:100%;
+  display:none;               /* script toggles .step--active */
+  opacity:0;
+  transform: translateY(8px);
+  transition: opacity var(--transition-fast) ease, transform var(--transition-fast) ease;
 }
 
-/* If you prefer to trigger shake only on demand, add .animate to the element:
-   .btn.wrong.animate { animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both; }
-*/
-
-/* =========================
-   Next Button
-   - Fade-in 0.8s, larger width, slight glow when visible
-   ========================= */
-.btn.next {
-  animation: fadeIn 0.8s var(--transition) both;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), var(--button-bg));
-  color: var(--accent);
-  min-width: 220px;       /* larger width on desktop */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+/* Visible step */
+.step--active{
+  display:block;
+  opacity:1;
+  transform:none;
 }
 
-/* Slight glow when visible (especially in neon) */
-.btn.next.visible {
-  box-shadow: 0 12px 40px rgba(255,255,255,0.04), 0 0 26px rgba(255,255,255,0.02);
+/* Minimal headings */
+.step-title{
+  margin:0 0 6px 0;
+  font-size:18px;
+  font-weight:700;
+  color: var(--text);
+}
+.step-sub{
+  margin:0 0 14px 0;
+  color: rgba(255,255,255,0.85);
+  font-size:13px;
 }
 
-/* On mobile ensure next is comfortably tappable (full width) */
-@media (max-width: 719px) {
-  .btn.next { width: 100%; min-width: 0; }
+/* Motivation / step messages (italic + subtle fade-in) */
+.motivation, .info{
+  margin-top:12px;
+  font-style:italic;
+  color: rgba(255,255,255,0.75);
+  font-size:13px;
+  opacity:0;
+  transform: translateY(6px);
+  animation: fadeInSub 420ms var(--transition-fast) ease forwards;
+}
+@keyframes fadeInSub{
+  to { opacity:1; transform:none; }
 }
 
-/* =========================
-   Progress bar
-   ========================= */
-.progress {
-  width: 100%;
-  height: 12px;
-  border-radius: 999px;
-  background: var(--progress-bg);
-  overflow: hidden;
-  position: relative;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+/* Input */
+.input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color:var(--text);
+  font-size:15px;
+  outline:none;
+  margin-top:8px;
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+.input:focus{
+  box-shadow: 0 6px 18px rgba(255,76,76,0.08);
+  border-color: rgba(255,76,76,0.28);
 }
 
-/* Fill element controlled via inline width or CSS variable */
-.progress__fill {
-  height: 100%;
-  width: 0%;
-  border-radius: 999px;
-  transition: width 600ms var(--transition), background 300ms var(--transition),
-              box-shadow 300ms var(--transition);
-  background: var(--progress-fill);
-  box-shadow: none;
+/* Options (radio-like buttons) */
+.options{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.option-btn{
+  flex: 1 1 140px;
+  min-width: 100px;
+  padding: var(--btn-padding);
+  border-radius: var(--btn-radius);
+  background: rgba(0,0,0,0.12);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.04);
+  cursor:pointer;
+  transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease, background var(--transition-fast);
+  text-align:center;
+  font-weight:600;
+}
+.option-btn[aria-pressed="true"],
+.option-btn.active{
+  background: linear-gradient(180deg, rgba(255,76,76,0.12), rgba(255,76,76,0.06));
+  box-shadow: 0 8px 26px rgba(255,76,76,0.08);
+  transform: translateY(-3px);
+  border-color: rgba(255,76,76,0.22);
 }
 
-/* Theme-specific progress styles */
-body.neon .progress__fill {
-  background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
-  box-shadow: 0 6px 30px rgba(255,255,255,0.12), 0 0 18px var(--neon-glow);
+/* Buttons general */
+.controls{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+  align-items:center;
+  flex-wrap:wrap;
 }
-body.dark .progress__fill {
-  background: rgba(255,255,255,0.12);
+.btn{
+  padding: 12px 18px;
+  border-radius: var(--btn-radius);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor:pointer;
+  font-weight:700;
+  min-height:44px;
+  min-width:88px;
+  transition: transform var(--transition-fast) ease, background var(--transition-fast), box-shadow var(--transition-fast);
+  margin: 8px 0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
-body.light .progress__fill {
-  background: rgba(0,0,0,0.18);
+.btn:hover{
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255,76,76,0.06);
 }
 
-/* Smooth rounded ends when near full */
-.progress__fill.full {
-  box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+/* Next button — prominent */
+.btn-next, .btn-start, .btn-next-question{
+  background: linear-gradient(180deg, var(--accent), #ff2b2b);
+  color: #111;
+  border: none;
+  padding: 14px 22px;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(255,76,76,0.28);
+  min-width:120px;
+  transition: opacity var(--transition-slow) ease, transform var(--transition-fast) ease;
+  opacity:0;
+  transform: translateY(8px);
 }
 
-/* =========================
-   Timer
-   ========================= */
-.timer {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1.25rem;
-  letter-spacing: 0.01em;
-  padding: 8px 12px;
-  border-radius: 10px;
+/* Visible class to show next with delay (script should add .visible) */
+.btn-next.visible, .btn-start.visible, .btn-next-question.visible{
+  opacity:1;
+  transform:none;
+  transition-delay: 0.8s; /* 0.8s delay before fade-in */
+}
+
+/* Disabled state */
+.btn[aria-disabled="true"], .btn:disabled{
+  opacity:0.45;
+  cursor:not-allowed;
+  transform:none;
+  filter: grayscale(0.1);
+}
+
+/* Skip / small action */
+.btn-skip{
   background: transparent;
-  color: var(--timer-color);
-  transition: color 250ms var(--transition), text-shadow 250ms var(--transition), transform 200ms var(--transition);
+  border:1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.9);
+  padding:10px 14px;
 }
 
-/* Neon theme glowy timer */
-body.neon .timer {
-  color: var(--timer-color);
-  text-shadow: 0 0 10px rgba(255,255,255,0.2), 0 0 26px rgba(255,255,255,0.06);
+/* Answers area */
+.question-area{
+  margin-top:18px;
+}
+.question-text{
+  margin:6px 0 12px 0;
+  font-size:17px;
+  color: var(--text);
 }
 
-/* Dark theme timer: soft red accent */
-body.dark .timer {
-  color: var(--timer-color);
+/* Answer buttons */
+.answers{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
 }
-
-/* Light theme timer: subtle dark tone */
-body.light .timer {
-  color: var(--timer-color);
-  text-shadow: none;
-}
-
-/* When time is running low (<10s) add pulse and attention */
-.timer.warning {
-  animation: pulse 1.1s ease-in-out infinite;
-  transform-origin: center;
-  box-shadow: 0 6px 24px var(--timer-glow);
+.answer-btn{
+  padding:14px;
   border-radius: 12px;
+  background: rgba(0,0,0,0.12);
+  border:1px solid rgba(255,255,255,0.04);
+  color:var(--text);
+  font-weight:600;
+  text-align:center;
+  min-height:64px;
+  cursor:pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+  will-change: transform;
+}
+.answer-btn:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255,76,76,0.06);
 }
 
-/* =========================
-   Utility & layout helpers
-   ========================= */
-.row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+/* Correct / Wrong states (script toggles .correct or .wrong) */
+.answer-btn.correct{
+  animation: flashGreen 420ms ease forwards;
+  border-color: rgba(0,255,136,0.55);
+  box-shadow: 0 8px 28px rgba(0,255,136,0.08);
 }
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@keyframes flashGreen{
+  0% { transform: scale(1); background: linear-gradient(180deg, rgba(0,255,136,0.14), rgba(0,255,136,0.06)); }
+  40% { transform: scale(1.06); box-shadow: 0 18px 40px rgba(0,255,136,0.12); }
+  100% { transform: scale(1); background: rgba(0,0,0,0.06); }
 }
 
-/* Question / card area */
-.card {
-  background: transparent;
-  padding: 12px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* Wrong/shake */
+.answer-btn.wrong{
+  animation: shakeX 420ms cubic-bezier(.36,.07,.19,.97) both;
+  border-color: rgba(255,68,68,0.7);
+  background: linear-gradient(180deg, rgba(255,68,68,0.06), rgba(255,68,68,0.02));
+  box-shadow: 0 6px 18px rgba(255,68,68,0.06);
 }
-
-/* Minimal answers list */
-.answers {
-  display: grid;
-  gap: 8px;
-  grid-template-columns: 1fr;
-}
-
-/* On wider screens show answers in 2 columns when appropriate */
-@media (min-width: 720px) {
-  .answers.two-col {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-}
-
-/* Text helpers */
-.lead {
-  font-size: 1rem;
-  color: var(--accent);
-}
-.subtle {
-  color: var(--secondary);
-  font-size: 0.875rem;
-}
-
-/* Accessibility: screen-reader only */
-.sr-only {
-  position: absolute !important;
-  height: 1px; width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap; /* added line */
-}
-
-/* =========================
-   Keyframes: animations requested
-   - fadeIn
-   - shake
-   - pulse
-   - flashGreen
-   - glowWhite
-   ========================= */
-
-/* Fade in (subtle) */
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(6px) scale(0.995); }
-  60% { opacity: 1; transform: translateY(0) scale(1.002); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* Shake (horizontal) - used for wrong answer */
-@keyframes shake {
-  0% { transform: translateX(0); }
-  10% { transform: translateX(-8px) rotateZ(-1deg); }
-  30% { transform: translateX(6px) rotateZ(1deg); }
-  50% { transform: translateX(-4px) rotateZ(-0.6deg); }
-  70% { transform: translateX(3px) rotateZ(0.4deg); }
-  90% { transform: translateX(-1px); }
+@keyframes shakeX{
+  10%, 90% { transform: translateX(-6px); }
+  20%, 80% { transform: translateX(6px); }
+  30%, 50%, 70% { transform: translateX(-3px); }
+  40%, 60% { transform: translateX(3px); }
   100% { transform: translateX(0); }
 }
 
-/* Pulse (soft scaling and glow) */
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; box-shadow: none; }
-  50% { transform: scale(1.02); opacity: 0.98; }
-  100% { transform: scale(1); opacity: 1; }
+/* Progress bar */
+.progress{
+  margin-top:14px;
+  background: var(--muted);
+  border-radius:6px;
+  height: 12px;
+  position:relative;
+  overflow:hidden;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background: linear-gradient(90deg, var(--accent), #ff7b7b);
+  transition: width 0.3s ease;
+  border-radius:6px;
+  box-shadow: inset 0 -6px 18px rgba(0,0,0,0.15);
+}
+.progress-meta{
+  display:flex;
+  justify-content:space-between;
+  margin-top:8px;
+  font-size:13px;
+  color: rgba(255,255,255,0.9);
 }
 
-/* Flash green - quick brightening and glow on correct */
-@keyframes flashGreen {
-  0% {
-    box-shadow: 0 8px 30px rgba(0,255,136,0.06);
-    transform: translateY(0) scale(1);
-    filter: saturate(0.95);
-  }
-  40% {
-    box-shadow: 0 14px 42px rgba(0,255,136,0.18), 0 0 24px rgba(0,255,136,0.06);
-    transform: translateY(-2px) scale(1.01);
-    filter: saturate(1.08);
-  }
-  100% {
-    box-shadow: 0 8px 30px rgba(0,255,136,0.12);
-    transform: translateY(0) scale(1);
-    filter: saturate(1);
-  }
+/* Timer */
+.timer-wrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.timer{
+  background: rgba(255,255,255,0.02);
+  color: var(--accent-weak);
+  font-weight:800;
+  padding:8px 12px;
+  border-radius: 10px;
+  font-size:16px;
+  text-align:center;
+  min-width:86px;
+  box-shadow: 0 6px 18px rgba(255,76,76,0.04);
+  transition: box-shadow 220ms ease, transform 220ms ease;
 }
 
-/* Gentle white glow for neon theme elements */
-@keyframes glowWhite {
-  0% { text-shadow: 0 0 0 rgba(255,255,255,0); box-shadow: 0 0 0 rgba(255,255,255,0); }
-  50% { text-shadow: 0 0 10px rgba(255,255,255,0.14); box-shadow: 0 6px 28px rgba(255,255,255,0.06); }
-  100% { text-shadow: 0 0 0 rgba(255,255,255,0); box-shadow: 0 0 0 rgba(255,255,255,0); }
+/* Timer pulse animation (when counting down; script should toggle .counting) */
+.timer.counting{
+  animation: timerPulse 1.4s ease-in-out infinite;
+  box-shadow: 0 8px 30px rgba(255,76,76,0.12);
+}
+@keyframes timerPulse{
+  0% { transform: scale(1); box-shadow: 0 6px 18px rgba(255,76,76,0.06); }
+  50% { transform: scale(1.02); box-shadow: 0 12px 34px rgba(255,76,76,0.14); }
+  100% { transform: scale(1); box-shadow: 0 6px 18px rgba(255,76,76,0.06); }
 }
 
-/* =========================
-   Subtle INTJ-style touches
-   - focus-oriented spacing, calm tones, symmetry
-   ========================= */
-.app-container,
-.card,
-.btn {
-  letter-spacing: -0.01em;
+/* Results */
+.results-card{
+  background: rgba(255,255,255,0.02);
+  padding:18px;
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:flex-start;
+}
+.results-iq{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  font-size:28px;
+  margin:0;
+  color: var(--text);
+}
+.results-summary{
+  color: rgba(255,255,255,0.9);
 }
 
-/* Reduce motion for users who prefer it */
-@media (prefers-reduced-motion: reduce) {
-  .btn, .progress__fill, .app-container, .timer, .btn.correct, .btn.wrong, .btn.next {
-    transition: none !important;
-    animation: none !important;
-  }
+/* Footer */
+.app-footer{
+  margin-top:12px;
+  text-align:center;
+  color: rgba(255,255,255,0.6);
+  font-size:13px;
 }
 
-/* Prevent overflow on small devices */
-img, svg {
-  max-width: 100%;
-  height: auto;
-  display: block;
+/* Misc */
+.noscript-warning{
+  max-width: var(--max-width);
+  margin: 18px auto;
+  padding: 12px;
+  border-radius:10px;
+  background: rgba(255,76,76,0.06);
+  color: var(--text);
+  border: 1px solid rgba(255,76,76,0.08);
 }
 
-/* End of stylesheet */
+/* Subtle neon glow on focusable elements for INTJ mood */
+:focus{
+  outline: none;
+}
+.btn:focus, .option-btn:focus, .answer-btn:focus, .input:focus{
+  box-shadow: 0 10px 30px rgba(255,76,76,0.12);
+  transform: translateY(-1px);
+}
+
+/* ---------------------------
+   Responsive rules
+   --------------------------- */
+@media (max-width:700px){
+  :root{ --max-width: 100%; }
+  .answers{ grid-template-columns: 1fr; }
+  .option-btn{ flex: 1 1 100%; }
+  .brand{ font-size:18px; }
+  .step{ padding:16px; }
+  .btn-next{ min-width:100%; }
+}
+
+/* ---------------------------
+   Accessibility and reduced motion
+   --------------------------- */
+@media (prefers-reduced-motion: reduce){
+  * { animation-duration: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 0ms !important; }
+}
+
+/* ---------------------------
+   Utility / helper classes (script-friendly)
+   --------------------------- */
+
+/* When script marks a step as active it will add .step--active (handled above) */
+
+/* Progress percent text */
+#progress-percent{ font-weight:700; }
+
+/* A subtle glow for active elements (INTJ) */
+.active-glow{
+  box-shadow: 0 12px 40px rgba(255,76,76,0.12);
+}
+
+/* For endless mode info emphasis */
+.info--endless{
+  background: rgba(255,76,76,0.02);
+  padding:8px 10px;
+  border-radius:10px;
+  border:1px solid rgba(255,76,76,0.04);
+  margin-top:10px;
+  font-size:13px;
+}
+
+/* tiny helper for visually-hidden accessible labels */
+.visually-hidden{
+  position:absolute !important;
+  height:1px; width:1px;
+  overflow:hidden;
+  clip:rect(1px,1px,1px,1px);
+  white-space:nowrap;
+}
+
+/* End of file */
