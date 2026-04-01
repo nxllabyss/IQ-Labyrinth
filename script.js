@@ -32,8 +32,8 @@ const APP = {
     en: {
       brand: "IQ Labyrinth",
       tagline: "Minimal. Focused. Smart.",
-      mode: "INTJ Mode",
-      step1_title: "Welcome, strategist",
+      mode: "IQ Mode",
+      step1_title: "Welcome",
       step1_sub: "Enter a nickname to begin.",
       nickname_label: "Nickname",
       next: "Next",
@@ -71,8 +71,8 @@ const APP = {
     uz: {
       brand: "IQ Labyrinth",
       tagline: "Minimal. Fokuslangan. Aqlli.",
-      mode: "INTJ Rejim",
-      step1_title: "Xush kelibsiz, strateg",
+      mode: "IQ Rejim",
+      step1_title: "Xush kelibsiz",
       step1_sub: "Boshlash uchun nickname kiriting.",
       nickname_label: "Nickname",
       next: "Keyingi",
@@ -110,8 +110,8 @@ const APP = {
     ru: {
       brand: "IQ Labyrinth",
       tagline: "Минималистично. Сфокусировано. Умно.",
-      mode: "Режим INTJ",
-      step1_title: "Добро пожаловать, стратег",
+      mode: "Режим IQ",
+      step1_title: "Добро пожаловать",
       step1_sub: "Введите никнейм для начала.",
       nickname_label: "Никнейм",
       next: "Далее",
